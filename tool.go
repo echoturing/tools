@@ -10,6 +10,9 @@ import (
 
 	"fmt"
 
+	"bytes"
+	"encoding/json"
+
 	"github.com/labstack/gommon/log"
 )
 
@@ -76,4 +79,16 @@ func GetDownLoadAndPostUpload(downLoadUrl, uploadUrl, formField string) ([]byte,
 		log.Fatal(err)
 	}
 	return responseBytes, nil
+}
+
+// json marshal that does not escapeHTML tag
+func JsonMarshal(object interface{}) ([]byte, error) {
+	buffer := &bytes.Buffer{}
+	encoder := json.NewEncoder(buffer)
+	encoder.SetEscapeHTML(false)
+	err := encoder.Encode(object)
+	if err != nil {
+		return nil, err
+	}
+	return buffer.Bytes(), nil
 }
