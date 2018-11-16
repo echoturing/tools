@@ -7,7 +7,7 @@ import (
 )
 
 func TestConcurrentCb(t *testing.T) {
-	start := 5
+	start := 1
 	concurrentCount := 10
 	wg := sync.WaitGroup{}
 	wg.Add(concurrentCount)
