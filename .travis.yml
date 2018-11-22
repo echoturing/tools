@@ -1,0 +1,11 @@
+language: go
+sudo: false
+go:
+  - 1.11.x
+go_import_path: github.com/echoturing/tools
+
+services:
+  - redis-server
+
+script:
+  - go list ./...  | grep -v vendor | xargs go test
