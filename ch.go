@@ -3,6 +3,7 @@ package tools
 import "sync"
 
 // MergeCh that help us merge many channes in one chan
+// Maybe use
 func MergeChs(chs ...<-chan interface{}) <-chan interface{} {
 	merged := make(chan interface{})
 	var wg sync.WaitGroup

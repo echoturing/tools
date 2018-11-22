@@ -24,8 +24,8 @@ type CanHash interface {
 }
 
 type BloomFilterInterface interface {
-	AddItem(item CanHash) (bool, error)
-	RemoveItem(item CanHash) (bool, error)
+	AddItem(item CanHash) error
+	RemoveItem(item CanHash) error
 	TestItem(item CanHash) (bool, error)
 }
 
@@ -34,26 +34,37 @@ type redisBloomFilter struct {
 	keySuffix string
 }
 
+func NewRedisBloomFilter(addr, password string, db int, keySuffix string) *redisBloomFilter {
+	client := redis.NewClient(&redis.Options{Addr: addr, Password: password, DB: db})
+	_, err := client.Ping().Result()
+	if err != nil {
+		panic(err)
+	}
+	return &redisBloomFilter{
+		client:    client,
+		keySuffix: keySuffix,
+	}
+}
+
 func (r *redisBloomFilter) getKey() string {
 	return "bloomFilter|" + r.keySuffix
 }
 
-func (r *redisBloomFilter) AddItem(item CanHash) (bool, error) {
+func (r *redisBloomFilter) AddItem(item CanHash) error {
 	position, err := item.Hash()
 	if err != nil {
-		return false, err
+		return err
 	}
-	_, err = r.client.SetBit(r.getKey(), int64(position), 1).Result()
-	return true, nil
+	return r.client.SetBit(r.getKey(), int64(position), 1).Err()
 }
 
-func (r *redisBloomFilter) RemoveItem(item CanHash) (bool, error) {
+func (r *redisBloomFilter) RemoveItem(item CanHash) error {
 	position, err := item.Hash()
 	if err != nil {
-		return false, err
+		return err
 	}
-	_, err = r.client.SetBit(r.getKey(), int64(position), 0).Result()
-	return true, nil
+	return r.client.SetBit(r.getKey(), int64(position), 0).Err()
+
 }
 
 func (r *redisBloomFilter) TestItem(item CanHash) (bool, error) {

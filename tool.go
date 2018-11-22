@@ -16,5 +16,4 @@ func IsNil(object interface{}) bool {
 		return true
 	}
 	return false
-
 }
