@@ -2,6 +2,7 @@ package tools
 
 import (
 	"testing"
+	XXXX
 )
 
 func TestStringHash_Hash(t *testing.T) {
