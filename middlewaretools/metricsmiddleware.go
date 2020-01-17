@@ -1,4 +1,4 @@
-package http
+package middlewaretools
 
 import (
 	"strconv"
@@ -56,7 +56,7 @@ func initPrometheusHistogramVec(service string) {
 	})
 }
 
-// PrometheusMetrics returns a prometheus metrics middleware
+// PrometheusMetrics returns a prometheus metrics middlewaretools
 func PrometheusMetrics(service string) func(echo.HandlerFunc) echo.HandlerFunc {
 	initPrometheusHistogramVec(service)
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
