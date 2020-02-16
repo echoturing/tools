@@ -3,17 +3,23 @@ package utils
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 func TestInsertOrUpdate(t *testing.T) {
-	value, err := InsertOrUpdate(&InsertOrUpdateBody{
-		Table:                  "item",
-		Columns:                []string{"a", "b"},
-		DuplicateUpdateColumns: []string{"a"},
-	})
+	query, values, err := InsertOrUpdate(NewInsertOrUpdateBody(
+		"item",
+		[]string{"aa", "b"},
+		[]string{"aa"},
+		struct {
+			A int       `db:"aa"`
+			B time.Time `db:"b"`
+		}{2, time.Now()},
+	))
 	if err != nil {
 		t.Error(err.Error())
 		return
 	}
-	fmt.Println(value)
+	fmt.Println(query)
+	fmt.Println(values)
 }
