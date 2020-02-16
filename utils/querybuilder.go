@@ -10,6 +10,8 @@ import (
 )
 
 var (
+	timeFormat             = "2006-01-02 15:04:05.999999"
+	location, _            = time.LoadLocation("Asia/Shanghai")
 	templateOnce           = sync.Once{}
 	insertOrUpdateTemplate *template.Template
 )
@@ -81,7 +83,7 @@ func getDBTagSimpleValues(data interface{}, dbKeys []string) []interface{} {
 		interValue := f.Interface()
 		switch interValue.(type) {
 		case time.Time:
-			interValue = interValue.(time.Time).Format(time.RFC3339)
+			interValue = interValue.(time.Time).In(location).Format(timeFormat)
 		}
 		midMap[typeOfs.Field(i).Tag.Get("db")] = interValue
 	}
