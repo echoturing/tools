@@ -34,8 +34,11 @@ func (i *insertOrUpdateBody) formatTemplateValues() map[string]interface{} {
 	escape := WrapWith(i.Columns, "`")
 	placeholders := make([]string, 0, len(i.Columns))
 	updateStmts := make([]string, 0, len(i.Columns))
-	for _, column := range i.Columns {
+	for range i.Columns {
 		placeholders = append(placeholders, "?")
+
+	}
+	for _, column := range i.DuplicateUpdateColumns {
 		updateStmts = append(updateStmts, fmt.Sprintf("`%s`=values(`%s`)", column, column))
 	}
 	return map[string]interface{}{

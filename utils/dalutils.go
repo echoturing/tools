@@ -15,7 +15,7 @@ func StringJoin(s []string, joiner string) string {
 		return ""
 	}
 	if len(s) == 1 {
-		return s[1]
+		return s[0]
 	}
 	result := ""
 	for i := range s {
