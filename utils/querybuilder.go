@@ -60,7 +60,8 @@ func getInsertOrUpdateTemplate() *template.Template {
 				" values " +
 				" ({{.placeholders}}) " +
 				" on duplicate key update " +
-				" {{.updateStmt}}",
+				" {{.updateStmt}}" +
+				",`id`=LAST_INSERT_ID(`id`)",
 		)
 	})
 	return insertOrUpdateTemplate
