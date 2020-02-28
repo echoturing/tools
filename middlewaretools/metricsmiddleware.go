@@ -65,11 +65,13 @@ func PrometheusMetrics(service string) func(echo.HandlerFunc) echo.HandlerFunc {
 			ctx := request.Context()
 
 			method := request.Method
-			path := request.URL.RawPath
+			path := c.Path()
 			if method == "HEAD" {
 				return next(c)
 			}
 			switch path {
+			case "/metrics":
+				fallthrough
 			case "/favicon.ico":
 				return next(c)
 			}
