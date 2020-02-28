@@ -65,7 +65,7 @@ func PrometheusMetrics(service string) func(echo.HandlerFunc) echo.HandlerFunc {
 			ctx := request.Context()
 
 			method := request.Method
-			path := request.URL.Path
+			path := request.URL.RawPath
 			if method == "HEAD" {
 				return next(c)
 			}
