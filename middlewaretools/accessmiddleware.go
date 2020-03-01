@@ -37,9 +37,12 @@ var (
 	config = middleware.DefaultLoggerConfig
 )
 
-func AccessLog() echo.MiddlewareFunc {
+func AccessLog(skipper middleware.Skipper) echo.MiddlewareFunc {
 	once.Do(func() {
 		config.Format = accessLogFormat
+		if skipper != nil {
+			config.Skipper = skipper
+		}
 	})
 	return middleware.LoggerWithConfig(config)
 }
