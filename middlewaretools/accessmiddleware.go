@@ -29,7 +29,7 @@ var (
 				for _, f := range filterRequestFuncs {
 					reqData = f(reqData)
 				}
-				log.InfoWithContext(c.Request().Context(), "access_log", "req", string(reqData), "resp", string(respData))
+				log.InfoWithContext(c.Request().Context(), "body_access_log", "path", c.Request().URL, "req", string(reqData), "resp", string(respData))
 			},
 			Skipper: middleware.DefaultSkipper})
 	}
