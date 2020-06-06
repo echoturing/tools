@@ -20,7 +20,7 @@ const (
 var (
 	passwordReg = regexp.MustCompile(`("password"\s*:\s*)"([a-zA-Z0-9_]+)"`)
 
-	filterPassword = func(s []byte) []byte {
+	FilterPasswordFunc = func(s []byte) []byte {
 		return passwordReg.ReplaceAll(s, []byte(`$1"*******"`))
 	}
 	BodyDumpMiddleware = func(filterRequestFuncs ...func([]byte) []byte) echo.MiddlewareFunc {

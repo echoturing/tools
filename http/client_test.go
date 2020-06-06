@@ -3,8 +3,6 @@ package http
 import (
 	"context"
 	"testing"
-
-	"github.com/echoturing/log"
 )
 
 func TestGet(t *testing.T) {
@@ -14,5 +12,5 @@ func TestGet(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	log.Debug("resp", "resp", resp)
+
 }
