@@ -37,7 +37,7 @@ func (r *redisLocker) getKey(key string) string {
 }
 
 func (r *redisLocker) Lock(ctx context.Context, key string, value string) (bool, error) {
-	success, err := r.client.SetNX(ctx, key, value, r.expire).Result()
+	success, err := r.client.SetNX(key, value, r.expire).Result()
 	if err != nil {
 		return false, err
 	}
@@ -45,7 +45,7 @@ func (r *redisLocker) Lock(ctx context.Context, key string, value string) (bool,
 }
 
 func (r *redisLocker) Unlock(ctx context.Context, key string, value string) (success bool, err error) {
-	res, err := r.client.Eval(ctx, unlock, []string{key}, value).Int()
+	res, err := r.client.Eval(unlock, []string{key}, value).Int()
 	if err != nil {
 		return false, nil
 	}
