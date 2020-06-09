@@ -8,8 +8,17 @@ import (
 )
 
 type redisLocker struct {
-	client *redis.Client
-	expire time.Duration
+	client    *redis.Client
+	expire    time.Duration
+	keyPrefix string
+}
+
+func (r *redisLocker) setKeyPrefix(prefix string) {
+	r.keyPrefix = prefix
+}
+
+func (r *redisLocker) setExpire(expire time.Duration) {
+	r.expire = expire
 }
 
 const (
@@ -22,6 +31,10 @@ else
 end
 `
 )
+
+func (r *redisLocker) getKey(key string) string {
+	return r.keyPrefix + key
+}
 
 func (r *redisLocker) Lock(ctx context.Context, key string, value string) (bool, error) {
 	success, err := r.client.SetNX(ctx, key, value, r.expire).Result()

@@ -57,3 +57,18 @@ func TestRedisLocker_Locker(t *testing.T) {
 		return
 	}
 }
+
+func TestNewRedisLocker(t *testing.T) {
+	prefix := "prefix_xxx"
+	expire := time.Hour
+	locker := NewRedisLocker(NewConnection("127.0.0.1:6379", "", 0, 2), WithExpire(expire), WithKeyPrefix(prefix))
+	rLocker := locker.(*redisLocker)
+	if rLocker.keyPrefix != prefix {
+		t.Error("prefix not set!")
+		return
+	}
+	if rLocker.expire != expire {
+		t.Error("expire not set")
+		return
+	}
+}
