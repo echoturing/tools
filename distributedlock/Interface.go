@@ -23,7 +23,7 @@ var _ Locker = (*redisLocker)(nil)
 func NewRedisLocker(client *redis.Client, optionFunc ...optionFunc) Locker {
 	locker := &redisLocker{
 		client: client,
-		expire: time.Minute, // TODO(xiangxu)temporary set 1min,give a set func later
+		expire: time.Minute,
 	}
 	for _, f := range optionFunc {
 		f(locker)
