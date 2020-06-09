@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/echoturing/log"
-	"github.com/go-redis/redis/v8"
+	"github.com/go-redis/redis/v7"
 )
 
 func NewConnection(addr, password string, db, poolSize int) *redis.Client {
