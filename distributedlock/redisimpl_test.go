@@ -23,6 +23,7 @@ func NewConnection(addr, password string, db, poolSize int) *redis.Client {
 
 func TestRedisLocker_Locker(t *testing.T) {
 	locker := NewRedisLocker(NewConnection("127.0.0.1:6379", "", 0, 2))
+
 	key1 := "key1"
 	value1 := "value1"
 	value2 := "value2"
